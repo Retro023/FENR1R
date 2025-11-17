@@ -25,7 +25,7 @@ All files need to be transferred to target system (could cause issue in locked d
 ## How to use
   FENR1R is super easy to use!
   The only hurdle is getting FENR1R onto the host, First zip the FENR1R files:
-  ```
+
 ```sh
 
   zip FENR1R.zip FENR1R/*
@@ -40,7 +40,6 @@ nc -l -p 1234 > FENR1R.zip
 
 host
 nc <reciver_IP>  1234 < FENR1R.zip 
-
 ```
 
 
