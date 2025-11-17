@@ -48,7 +48,7 @@ nc <reciver_IP>  1234 < FENR1R.zip
 Once the FEN files are on the target you then run main.py to start the tool (TIP create  a folder in a dir your user has R&W perms in to save FENs files too i,e /tmp/FENR1R)
 
 ```sh
-python3 main.py or ./main.py  *if main is executable and python3 is in user env* 
+python3 main.py or ./main.py  (if main is executable and python3 is in user env) 
 ```
 
 
