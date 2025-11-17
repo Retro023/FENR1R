@@ -180,15 +180,20 @@ def get_services():
 
 
 # create a unique file name for each output file
-seed = int(time.time() * 1000) % (2**31)
-def rand():
-   # generate a random seed 
-    global seed
-    seed = (1103515246 * seed + 4454)% 2**31
-    return seed / 2**31
 
-    #Generate a random file name 
+# inital seed 
+seed = int(time.time() * 1000) % (2**31)
+#Generate filename 
 def Rfilename():
+    
+    # randomise the seed 
+    def rand():
+        # Generate seed 
+        global seed
+        seed = (1103515246 * seed + 4454)% 2**31
+        return seed / 2**31
+    
+    # craft file name 
     length = 8
     chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     res = ""
