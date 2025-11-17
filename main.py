@@ -12,6 +12,7 @@ import pwd
 import pprint
 import platform
 from sys import exit
+import sys
 import time
 
 
@@ -22,6 +23,7 @@ from scripts.CRON import scan_cron_folders, scan_cronJobs
 from scripts.Network import scan_network_interfaces
 
 
+
 # banner for tool  
 def banner_custom():
     # colours for banner 
@@ -29,25 +31,29 @@ def banner_custom():
     cyan = "\033[0;36m"
     purp = "\033[0;35m"
     END = "\033[0m"
-
-    # Banner 
-    Version = 0.3
-    banner = f""" 
-    +===============================================+
-    |                                               |
-    |                                               |
-    |{cyan} ███████╗███████╗███╗   ██╗██████╗  ██╗██████╗ {END}|
-    |{cyan} ██╔════╝██╔════╝████╗  ██║██╔══██╗███║██╔══██╗{END}|
-    |{cyan} █████╗  █████╗  ██╔██╗ ██║██████╔╝╚██║██████╔╝{END}|
-    |{purp} ██╔══╝  ██╔══╝  ██║╚██╗██║██╔══██╗ ██║██╔══██╗{END}|
-    |{purp} ██║     ███████╗██║ ╚████║██║  ██║ ██║██║  ██║{END}|
-    |{purp} ╚═╝     ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝ ╚═╝╚═╝  ╚═╝{END}|
-    |  {blue}Version: {str(Version)} {END}                                |
-    |                                               |                                               
-    | Author: MuteAvery                             |
-    |                                               |
-    +===============================================+    
-    """
+    try:
+        # Banner 
+        Version = 0.3
+        banner = f""" 
+        +===============================================+
+        |                                               |
+        |                                               |
+        |{cyan} ███████╗███████╗███╗   ██╗██████╗  ██╗██████╗ {END}|
+        |{cyan} ██╔════╝██╔════╝████╗  ██║██╔══██╗███║██╔══██╗{END}|
+        |{cyan} █████╗  █████╗  ██╔██╗ ██║██████╔╝╚██║██████╔╝{END}|
+        |{purp} ██╔══╝  ██╔══╝  ██║╚██╗██║██╔══██╗ ██║██╔══██╗{END}|
+        |{purp} ██║     ███████╗██║ ╚████║██║  ██║ ██║██║  ██║{END}|
+        |{purp} ╚═╝     ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝ ╚═╝╚═╝  ╚═╝{END}|
+        |  {blue}Version: {str(Version)} {END}                                |
+        |                                               |                                               
+        | Author: MuteAvery                             |
+        |                                               |
+        +===============================================+    
+        """
+    # incase this ascii art throws a syntax error make banner a simple string 
+    except SyntaxError:
+        banner = "FENR1R"
+    
     return banner
 
 # Detect the OS 
@@ -194,8 +200,17 @@ def Rfilename():
 
 
 def main():
+    # check python verison is compatible 
+    Required_version = 3.6
+    if sys.version_info[0] < 3:
+        print("Fatal ERROR: FENR1R Requires python3 version 3.6 or higher")
+        sys.exit(1)
+    if sys.version_info[1] < Required_version:
+        print("Fatal ERROR: FENR1R Requires python3 version 3.6 or higher")
+        sys.exit(1)
+
+
     # get the banner and print it 
-    
     banner = banner_custom()
     print(banner)
     
