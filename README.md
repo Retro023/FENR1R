@@ -1,5 +1,6 @@
 # FENR1R
-<img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/281a0e91-105f-4f03-a055-9cf296c9d549" />
+<img width="500" height="500" alt="FENR1R(1)" src="https://github.com/user-attachments/assets/379ab85c-40b8-480c-98a7-fc143801bc25" />
+
 
 ## What is FENR1R?
   FENR1R is a Linux PrivEsc enum tool.
