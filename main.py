@@ -33,7 +33,7 @@ def banner_custom():
     END = "\033[0m"
     try:
         # Banner
-        Version = 0.3
+        Version = 0.5
         banner = f""" 
         +===============================================+
         |                                               |
