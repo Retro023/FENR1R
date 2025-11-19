@@ -60,5 +60,3 @@ python3 main.py or ./main.py  (if main is executable and python3 is in user env)
 FENR1R will be updated with new enum techniques and functionality.
 
 FENR1R_W, This is the windows version of FENR1R
-
-Speed, FENR1R will get faster as its improved 
