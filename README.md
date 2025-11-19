@@ -1,7 +1,7 @@
 # FENR1R
+<img width="500" height="400" alt="image" src="https://github.com/user-attachments/assets/281a0e91-105f-4f03-a055-9cf296c9d549" />
 
 ## What is FENR1R?
-  
   FENR1R is a Linux PrivEsc enum tool.
   FENR1R Scans a target system for PrivEsc Vectors and then outputs its findings to a file following a,
   easy to understand format.
