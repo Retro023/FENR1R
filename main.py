@@ -22,7 +22,7 @@ from scripts.CAP import scan_caps
 from scripts.CRON import scan_cron_folders, scan_cronJobs
 from scripts.Network import scan_network_interfaces
 from scripts.SUDO import scan_sudo_privs
-
+from scripts.INTEREST_FILE import scan_files, scan_files_ext
 
 # banner for tool
 def banner_custom():
@@ -33,7 +33,7 @@ def banner_custom():
     END = "\033[0m"
     try:
         # Banner
-        Version = 0.5
+        Version = 0.5.1
         banner = f""" 
         +===============================================+
         |                                               |
@@ -195,6 +195,7 @@ def main():
     if sys.version_info[0] < 3:
         print("Fatal ERROR: FENR1R Requires python3 version 3.6 or higher")
         sys.exit(1)
+
     if sys.version_info[1] < Required_version:
         print("Fatal ERROR: FENR1R Requires python3 version 3.6 or higher")
         sys.exit(1)
@@ -214,16 +215,19 @@ def main():
         os_name = detect_OS()
         kernel = detect_kernel()
         arch = detect_arch()
-        sudo_privs = scan_sudo_privs()
+        sudo_info = scan_sudo_privs()
         users = get_users()
         services = get_services()
         interfaces = scan_network_interfaces()
-        suid_list, privesc_vectors = scan_suids()
+        suid_list, privesc_vectors = scan_suids()  # Checked for None in its own script
         res = Rfilename()
-        cap_list, privesc_vectors_cap = scan_caps()
+        cap_list, privesc_vectors_cap = (
+            scan_caps()
+        )  # checked for None in its own script
         crontabs = scan_cronJobs()
         cron_folders = scan_cron_folders()
-
+        interest_file = scan_files()
+        interest_ext = scan_files_ext()
         # break line length
         break_line = 60
 
@@ -276,10 +280,12 @@ def main():
         # Network interface
         output += "\nNetwork interfaces\n"
         output += "=" * break_line + "|\n"
-        for i in interfaces:
-            output += (
-                f"Name: {i['Name']}, IP: {i['IP']}, MAC: {i['MAC']}, isUP: {i['Up']}\n"
-            )
+        if interfaces:
+            for i in interfaces:
+                output += f"Name: {i['Name']}, IP: {i['IP']}, MAC: {i['MAC']}, isUP: {i['Up']}\n"
+        else:
+            output += "Could not find Network interfaces\n"
+
         output += "=" * break_line + "|\n\n"
 
         # SUIDS (all)
@@ -328,6 +334,26 @@ def main():
         else:
             for cr in cron_folders:
                 output += f"Cron_Jobs: {cr}\n"
+        output += "=" * break_line + "|\n\n"
+
+        # Interesting files
+        output += " Interesting_files\n"
+        output += "=" * break_line + "|\n"
+        if interest_file:
+            for f in interest_file:
+                output += f"{f}\n"
+        else:
+            output += "Could not find interesting files\n"
+        output += "=" * break_line + "|\n\n"
+
+        # Interesting files extenstions
+        output += " Interesting_files\n"
+        output += "=" * break_line + "|\n"
+        if interest_file:
+            for e in interest_ext:
+                output += f"{e}\n"
+        else:
+            output += "Could not find interesting files extenstions\n"
         output += "=" * break_line + "|\n\n"
 
         # write to file
