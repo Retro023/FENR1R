@@ -24,12 +24,17 @@ Links to known privEsc Vectors
 ## Cons
 Written in python (slowish)
 Import errors may occurred (Care was taken to make sure all imports are apart of pythons standard lib)
-All files need to be transferred to target system (could cause issue in locked down environments) 
+All 
+files need to be transferred to target system (could cause issue in locked down environments) 
 
 ## How to use
   FENR1R is super easy to use!
-  The only hurdle is getting FENR1R onto the host, First zip the FENR1R files:
+  
+  Download the FENR1R elf binary from https://github.com/Retro023/FENR1R/releases. Then Copy the binary over to
+  the target system
 
+  ### Using source
+  If you dont wish to use the binary you can follow these steps to copy FENR1R's source code over to the target 
 ```sh
 
   zip FENR1R.zip FENR1R/*
