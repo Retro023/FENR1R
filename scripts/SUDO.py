@@ -1,8 +1,7 @@
 import subprocess
 
-
-def scan_sudo_privs():
-    sudo_stuff = {}
+# Check if sudo asks for passwd
+def Check_sudoPasswd():
     try:
         # run sudo -l -n to see if user needs a password for sudo
         result = subprocess.run(
@@ -11,22 +10,17 @@ def scan_sudo_privs():
             stderr=subprocess.PIPE,
             text=True,
         )
-        # if the user can run sudo with out a password then retur they can run sudo and dont need a password
+        # if the user can run sudo with out a password then set SudoPasswd to true
         if result.returncode == 0:
-            sudo_suff = {
-                "sudo_privs": True,
-                "password_required": False,
-                "output": result.stdout,
-            }
+            SudoPasswd = False
 
-        # if password is needed return they need a password for sudo
-        if "sudo: a password is required\n" in result.stderr.lower():
-            sudo_stuff = {
-                "sudo_privs": True,
-                "password_required": True,
-                "output": result.stdout,
-            }
+        else:
+            SudoPasswd = True
 
+        return SudoPasswd
+
+    # If error tell user then set SudoPasswd to error
     except Exception as e:
         print(f"Error occured\nDetails:{e}")
-    return sudo_stuff
+        SudoPasswd = "Error occured trying to check for a sudo password"
+        return SudoPasswd
