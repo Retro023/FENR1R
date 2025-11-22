@@ -21,8 +21,9 @@ from scripts.SUID import scan_suids
 from scripts.CAP import scan_caps
 from scripts.CRON import scan_cron_folders, scan_cronJobs
 from scripts.Network import scan_network_interfaces
-from scripts.SUDO import scan_sudo_privs
+from scripts.SUDO import Check_sudoPasswd
 from scripts.INTEREST_FILE import scan_files, scan_files_ext
+
 
 # banner for tool
 def banner_custom():
@@ -33,7 +34,7 @@ def banner_custom():
     END = "\033[0m"
     try:
         # Banner
-        Version = 0.5
+        Version = 0.3
         banner = f""" 
         +===============================================+
         |                                               |
@@ -215,11 +216,12 @@ def main():
         os_name = detect_OS()
         kernel = detect_kernel()
         arch = detect_arch()
-        sudo_info = scan_sudo_privs()
+        sudo_info = Check_sudoPasswd()
         users = get_users()
         services = get_services()
         interfaces = scan_network_interfaces()
         suid_list, privesc_vectors = scan_suids()  # Checked for None in its own script
+
         res = Rfilename()
         cap_list, privesc_vectors_cap = (
             scan_caps()
@@ -253,7 +255,7 @@ def main():
         output += "Self user\n"
         output += "=" * break_line + "|\n"
         user_info = self_user_info()
-        sudo_info = scan_sudo_privs()
+        Sudo_Passwd = sudo_info
         # print env vars in pretty format
         env_str = pprint.pformat(user_info["ENV"], width=90)
 
@@ -265,8 +267,7 @@ def main():
             f"Shell: {user_info['shell']}\n"
             f"User info: {user_info['user_info']}\n"
             f"ENV: {env_str}\n"
-            f"SUDO: Privs:{sudo_info['sudo_privs']}\n"
-            f"SUDO Requires password: {sudo_info['password_required']}\n"
+            f"SUDO Requires password: {Sudo_Passwd}\n"
         )
         output += "=" * break_line + "|\n\n"
 
