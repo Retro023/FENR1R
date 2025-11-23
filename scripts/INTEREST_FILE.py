@@ -47,6 +47,9 @@ interesting_fileExt = [
 
 # scan file system for interesting files
 def scan_files():
+    print(
+        "\nScanning interesting files this output is large, FENR1R will keep it too Report only!\n"
+    )
     interesting_files_found = []
     total = 0
     # walk thru the system file and gather files
@@ -55,20 +58,23 @@ def scan_files():
             # give user update on scan so they do not think it crashed
             total += 1
             print(f"Scanning files for files of interest... Checked: {total}", end="\r")
-            path = os.path.join(root, name)
-
             # check if file is interesting
             try:
-                file_name = path
+                path = os.path.join(root, name)
+
             except (PermissionError, FileNotFoundError, OSError):
                 continue
-            if file_name in interesting_files:
-                interesting_files_found.append(file_name)
+            if name in interesting_files:
+                if os.access(path, os.R_OK):
+                    interesting_files_found.append(path)
     return interesting_files_found
 
 
 # scan system for interesting file extenstions
 def scan_files_ext():
+    print(
+        "\nScanning interesting file extenstions this output is large, FENR1R  will  keep the output to Report only!\n"
+    )
     interesting_fileExt_found = []
     total = 0
     # walk thru the system file and gather files
@@ -77,13 +83,14 @@ def scan_files_ext():
             # give user update on scan so they do not think it crashed
             total += 1
             print(f"Scanning files for files of interest... Checked: {total}", end="\r")
-            path = os.path.join(root, name)
 
             # check if file has an interesting extenstion
             try:
-                file_name = path
+                path = os.path.join(root, name)
+                ext = os.path.splitext(name)[1].lower()
             except (PermissionError, FileNotFoundError, OSError):
                 continue
-            if file_name in interesting_files:
-                interesting_fileExt_found.append(file_name)
+            if ext in interesting_fileExt:
+                if os.access(path, os.R_OK):
+                    interesting_fileExt_found.append(path)
     return interesting_fileExt_found
