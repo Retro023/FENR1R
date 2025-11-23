@@ -363,7 +363,7 @@ def main():
         with open(file_path, "w") as f:
             f.write(f"{output}")
 
-            print(f"Report written to {file_path}")
+            print(f"\nReport written to {file_path}")
 
     # Error  Handling
 
