@@ -23,6 +23,7 @@ from scripts.CRON import scan_cron_folders, scan_cronJobs
 from scripts.Network import scan_network_interfaces
 from scripts.SUDO import Check_sudoPasswd
 from scripts.INTEREST_FILE import scan_files, scan_files_ext
+from scripts.GetDisks import get_disks, get_Luks
 
 
 # banner for tool
@@ -114,7 +115,7 @@ def self_user_info():
     # check if user is a root user
     isroot = False
     if os.getuid() == 0:
-        isroot == True
+        isroot = True
     # format return for output file
     return {
         "uid": uid,
@@ -192,12 +193,7 @@ def Rfilename():
 
 def main():
     # check python verison is compatible
-    Required_version = 3.6
-    if sys.version_info[0] < 3:
-        print("Fatal ERROR: FENR1R Requires python3 version 3.6 or higher")
-        sys.exit(1)
-
-    if sys.version_info[1] < Required_version:
+    if sys.version_info < (3, 6):
         print("Fatal ERROR: FENR1R Requires python3 version 3.6 or higher")
         sys.exit(1)
 
@@ -228,6 +224,8 @@ def main():
         )  # checked for None in its own script
         crontabs = scan_cronJobs()
         cron_folders = scan_cron_folders()
+        disks = get_disks()
+        luks = get_Luks()
         interest_file = scan_files()
         interest_ext = scan_files_ext()
         # break line length
@@ -336,6 +334,26 @@ def main():
             for cr in cron_folders:
                 output += f"Cron_Jobs: {cr}\n"
         output += "=" * break_line + "|\n\n"
+
+        # disks
+        output += "Disk info\n"
+        output += "=" * break_line + "|\n"
+        if disks:
+            output += str(disks)
+            output += "\n"
+        else:
+            output += "Could Not Find info about disks\n"
+        output += "=" * break_line + "|\n"
+
+        # luks
+        output += "LUKs  info\n"
+        output += "=" * break_line + "|\n"
+        if luks:
+            output += str(luks)
+            output += "\n"
+        else:
+            output += "Couldnt get Luks info\n"
+        output += "=" * break_line + "|\n"
 
         # Interesting files
         output += " Interesting_files\n"
